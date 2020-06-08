@@ -30,7 +30,7 @@ import utils.Timer;
 import utils.Writes;
 import visuals.Bars;
 import visuals.Circular;
-import visuals.Hoops;
+import visuals.CustomImage;
 import visuals.Mesh;
 import visuals.Pixels;
 import visuals.VisualStyles;
@@ -269,7 +269,12 @@ final public class ArrayVisualizer {
                 ArrayVisualizer.this.visualClasses = new Visual[5];
                 ArrayVisualizer.this.visualClasses[0] = new Bars(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[1] = new Circular(ArrayVisualizer.this);
-                ArrayVisualizer.this.visualClasses[2] = new Hoops(ArrayVisualizer.this);
+                //Image file name is set here (file will be in the main folder)
+				try {
+					ArrayVisualizer.this.visualClasses[2] = new CustomImage(ArrayVisualizer.this, "file.jpg");
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
                 ArrayVisualizer.this.visualClasses[3] = new Mesh(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[4] = new Pixels(ArrayVisualizer.this);
                 
