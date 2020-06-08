@@ -153,7 +153,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
         customImage.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hoopsActionPerformed(evt);
+                customImageActionPerformed(evt);
             }
         });
 
@@ -207,7 +207,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
                         .addComponent(dotGraph, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(triangleMesh, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(spiral, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                        .addComponent(hoops, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(customImage, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(spiralDots, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
                     .addGap(18))
         );
@@ -227,7 +227,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(colorCircle)
-                        .addComponent(hoops))
+                        .addComponent(customImage))
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(disparity)
