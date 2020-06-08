@@ -84,7 +84,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
         this.disparityDots = new javax.swing.JButton();
         this.spiralDots= new javax.swing.JButton();
         this.rainbow = new javax.swing.JButton();
-        this.hoops = new javax.swing.JButton();
+        this.customImage = new javax.swing.JButton();
         this.sineWave = new javax.swing.JButton();
         this.waveDots = new javax.swing.JButton();
 
@@ -149,8 +149,8 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
             }
         });
 
-        hoops.setText("Hoops");
-        hoops.addActionListener(new java.awt.event.ActionListener() {
+        customImage.setText("Custom Image");
+        customImage.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hoopsActionPerformed(evt);
@@ -308,9 +308,9 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
         UtilFrame.jButton2ResetText();
         dispose();
     }
-    private void hoopsActionPerformed(java.awt.event.ActionEvent evt) {
+    private void customImageActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.HOOPS);
+        ArrayVisualizer.setVisual(VisualStyles.IMAGE);
         UtilFrame.jButton2ResetText();
         dispose();
     }
@@ -358,7 +358,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements Frame {
     private javax.swing.JButton disparity;
     private javax.swing.JButton disparityDots;
     private javax.swing.JButton rainbow;
-    private javax.swing.JButton hoops;
+    private javax.swing.JButton customImage;
     private javax.swing.JButton sineWave;
     private javax.swing.JButton waveDots;
     private javax.swing.JLabel jLabel1;
