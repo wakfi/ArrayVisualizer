@@ -60,29 +60,6 @@ public enum Shuffles {
             }
         }
     },
-    SIMILAR {
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            
-            for(int i = 0; i < currentLen - 8; i++) {
-                array[i] = currentLen / 2;
-                
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
-            }
-            for(int i = currentLen - 8; i < currentLen; i++) {
-                array[i] = (int) (Math.random() < 0.5 ? currentLen * 0.75 : currentLen * 0.25);
-                
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
-            }
-            for(int i = 0; i < currentLen; i++){
-                int randomIndex = (int) (Math.random() * (currentLen - i)) + i;
-                Writes.swap(array, i, randomIndex, 0, true, false);
-                
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
-            }
-        }
-    },
     ALMOST {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {

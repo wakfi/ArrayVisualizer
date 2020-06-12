@@ -11,7 +11,7 @@ import frames.UtilFrame;
 import main.ArrayManager;
 import templates.Frame;
 import templates.JErrorPane;
-import utils.Shuffles;
+import utils.Distributions;
 
 /*
  * 
@@ -43,7 +43,7 @@ SOFTWARE.
  *
  * @author S630690
  */
-final public class ShufflePrompt extends javax.swing.JFrame implements Frame {
+final public class DistributionPrompt extends javax.swing.JFrame implements Frame {
 
     /**
      * 
@@ -58,7 +58,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements Frame {
      * Creates new form SortPrompt
      */
     @SuppressWarnings("unchecked")
-    public ShufflePrompt(ArrayManager ArrayManager, JFrame frame, UtilFrame utilFrame) {
+    public DistributionPrompt(ArrayManager ArrayManager, JFrame frame, UtilFrame utilFrame) {
         this.ArrayManager = ArrayManager;
         this.Frame = frame;
         this.UtilFrame = utilFrame;
@@ -66,9 +66,9 @@ final public class ShufflePrompt extends javax.swing.JFrame implements Frame {
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
-        jList1.setListData(ArrayManager.getShuffleIDs());
-        for(int i = 0; i < ArrayManager.getShuffles().length; i++) {
-            if(ArrayManager.getShuffle().equals(ArrayManager.getShuffles()[i])) {
+        jList1.setListData(ArrayManager.getDistributionIDs());
+        for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
+            if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
                 jList1.setSelectedIndex(i);
                 break;
             }
@@ -98,7 +98,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements Frame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("How do you want the array to be shuffled?");
+        jLabel1.setText("How do you want the data to be distributed?");
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -146,21 +146,18 @@ final public class ShufflePrompt extends javax.swing.JFrame implements Frame {
         int selection = jList1.getSelectedIndex();
         switch (selection) {
         case 0:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[0]);
+            ArrayManager.setDistribution(ArrayManager.getDistributions()[0]);
             break;
         case 1:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[1]);
+            ArrayManager.setDistribution(ArrayManager.getDistributions()[1]);
             break;
         case 2:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[2]);
-            break;
-        case 3:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[3]);
+            ArrayManager.setDistribution(ArrayManager.getDistributions()[2]);
             break;
         default:
             break;
         }
-        UtilFrame.jButton6ResetText();
+        UtilFrame.jButton7ResetText();
         dispose();
     }//GEN-LAST:event_jList1ValueChanged
 

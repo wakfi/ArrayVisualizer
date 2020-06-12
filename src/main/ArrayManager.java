@@ -6,6 +6,7 @@ import templates.JErrorPane;
 import utils.Delays;
 import utils.Highlights;
 import utils.Shuffles;
+import utils.Distributions;
 import utils.Writes;
 
 /*
@@ -37,7 +38,9 @@ SOFTWARE.
 final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
-    private String[] shuffleIDs = {"Randomly", "Backwards", "Few Unique", "Almost Sorted", "Already Sorted"};
+	private utils.Distributions[] distributionTypes;
+    private String[] shuffleIDs = {"Randomly", "Backwards", "Almost Sorted", "Already Sorted"};
+	private String[] distributionIDs = {"Linear", "Few Unique", "Custom"};
     
     private volatile boolean MUTABLE;
 
@@ -45,6 +48,7 @@ final public class ArrayManager {
     private Delays Delays;
     private Highlights Highlights;
     private Shuffles Shuffles;
+	private Distributions Distributions;
     private Writes Writes;
     
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
@@ -53,6 +57,8 @@ final public class ArrayManager {
         
         this.Shuffles = utils.Shuffles.RANDOM;
         this.shuffleTypes = utils.Shuffles.values();
+		this.Distributions = utils.Distributions.LINEAR;
+        this.distributionTypes = utils.Distributions.values();
         
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
@@ -98,6 +104,19 @@ final public class ArrayManager {
     public void setShuffle(Shuffles choice) {
         this.Shuffles = choice;
     }
+	
+	public String[] getDistributionIDs() {
+        return this.distributionIDs;
+    }
+    public Distributions[] getDistributions() {
+        return this.distributionTypes;
+    }
+    public Distributions getDistribution() {
+        return this.Distributions;
+    }
+    public void setDistribution(Distributions choice) {
+        this.Distributions = choice;
+    }
     
     public void shuffleArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
         this.initializeArray(array);
@@ -130,6 +149,7 @@ final public class ArrayManager {
             Delays.setSleepRatio(sleepRatio);
         }
         
+		Distributions.setArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
         Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
         
         Delays.setSleepRatio(speed);
