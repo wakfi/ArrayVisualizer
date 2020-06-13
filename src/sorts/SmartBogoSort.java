@@ -10,7 +10,7 @@ import utils.Writes;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2020 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ SOFTWARE.
  *
  */
 
-//Implementation by @aphitorite
 final public class SmartBogoSort extends BogoSorting {
     public SmartBogoSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
         super(delayOps, markOps, readOps, writeOps);

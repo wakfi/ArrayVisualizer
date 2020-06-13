@@ -10,7 +10,7 @@ import utils.Writes;
  * 
 The MIT License (MIT)
 
-Copyright (c) 2012 Daniel Imms, http://www.growingwiththeweb.com
+Copyright (c) 2020 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -31,7 +31,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-//Implementation by @aphitorite
 final public class IterativeCombSort extends Sort {
     public IterativeCombSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
         super(delayOps, markOps, readOps, writeOps);
