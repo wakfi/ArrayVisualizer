@@ -52,24 +52,14 @@ final public class RecursiveWeavedBitonicSort extends Sort {
 		if(len < 2)
 			return;
 		
-		boolean inBounds1, inBounds2;
 		for(int i = 0; 2*i < (len-1)*gap; i+=gap) {
-			inBounds1 = pos+i < trueLen;
-			inBounds2 = pos+(len-1)*gap-i < trueLen;
-			
-			if(inBounds1)
+			if(pos+(len-1)*gap-i < trueLen) {
 				Highlights.markArray(1, pos+i);
-			else
-				Highlights.clearMark(1);
-			
-			if(inBounds2)
 				Highlights.markArray(2, pos+(len-1)*gap-i);
-			else
-				Highlights.clearMark(2);
-			
-			if(inBounds1) Delays.sleep(0.5);
-			if(inBounds2 && Reads.compare(array[pos+i], array[pos+(len-1)*gap-i]) == 1)
-				Writes.swap(array, pos+i, pos+(len-1)*gap-i, 0.5, true, false);
+				Delays.sleep(0.5);
+				if(Reads.compare(array[pos+i], array[pos+(len-1)*gap-i]) == 1)
+					Writes.swap(array, pos+i, pos+(len-1)*gap-i, 0.5, true, false);
+			}
 		}
 		
 		this.circle(array, pos, len/2, trueLen, gap);

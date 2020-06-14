@@ -51,25 +51,15 @@ final public class IterativeWeavedBitonicSort extends Sort {
 	private void iterativeCircle(int[] array, int pos, int len, int trueLen, int divisions) {
 		int i = 0, d = (len/2)/divisions;
 		
-		boolean inBounds1, inBounds2;
 		for(int j = len-d; j >= len/2; j-=d) {
 			for(int k = 0; k < d; k++) {
-				inBounds1 = pos+i < trueLen;
-				inBounds2 = pos+j+k < trueLen;
-				
-				if(inBounds1)
+				if(pos+j+k < trueLen) {
 					Highlights.markArray(1, pos+i);
-				else
-					Highlights.clearMark(1);
-				
-				if(inBounds2)
 					Highlights.markArray(2, pos+j+k);
-				else
-					Highlights.clearMark(2);
-				
-				if(inBounds1) Delays.sleep(0.5);
-				if(inBounds2 && Reads.compare(array[pos+i], array[pos+j+k]) == 1)
-					Writes.swap(array, pos+i, pos+j+k, 0.5, true, false);
+					Delays.sleep(0.5);
+					if(Reads.compare(array[pos+i], array[pos+j+k]) == 1)
+						Writes.swap(array, pos+i, pos+j+k, 0.5, true, false);
+				}
 				i++;
 			}
 		}
