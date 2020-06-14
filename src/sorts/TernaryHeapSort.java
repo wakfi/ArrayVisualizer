@@ -40,32 +40,33 @@ final public class TernaryHeapSort extends Sort {
     }
 
     private void maxHeapify(int[] array, int i) {
+		int temp = array[i], root = i;
+		while(this.leftBranch(root) <= this.heapSize) {
+			int leftChild   = TernaryHeapSort.leftBranch(root);
+			int rightChild  = TernaryHeapSort.rightBranch(root);
+			int middleChild = TernaryHeapSort.middleBranch(root);
+			int largest     = leftChild;
 
-        int leftChild = TernaryHeapSort.leftBranch(i);
-        int rightChild = TernaryHeapSort.rightBranch(i);
-        int middleChild = TernaryHeapSort.middleBranch(i);
-        int largest;
+			if(rightChild <= heapSize && Reads.compare(array[rightChild], array[largest]) > 0) {
+				largest = rightChild;
+			}
 
-        largest = leftChild <= heapSize && Reads.compare(array[leftChild], array[i]) > 0 ? leftChild : i;
+			if(middleChild <= heapSize && Reads.compare(array[middleChild], array[largest]) > 0) {
+				largest = middleChild;
+			}
 
-        if(rightChild <= heapSize && Reads.compare(array[rightChild], array[largest]) > 0) {
-            largest = rightChild;
-        }
-
-        if(middleChild <= heapSize && Reads.compare(array[middleChild], array[largest]) > 0) {
-            largest = middleChild;
-        }
-
-
-        if(largest != i) {
-            Writes.swap(array, i, largest, 1, true, false);
-            this.maxHeapify(array, largest);
-        }
+			if(Reads.compare(array[largest], temp) > 0) {
+				Writes.write(array, root, array[largest], 1, true, false);
+				root = largest;
+			} else break;
+		}
+		
+		Writes.write(array, root, temp, 1, true, false);
     }
     
     private void buildMaxTernaryHeap(int[] array, int length) {
-        heapSize = length - 1;
-        for(int i = length - 1  / 3; i >= 0; i--)
+        this.heapSize = length - 1;
+        for(int i = this.heapSize / 3; i >= 0; i--)
             this.maxHeapify(array, i);
     }
     
@@ -73,10 +74,10 @@ final public class TernaryHeapSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         this.buildMaxTernaryHeap(array, length);
 
-        for(int i = length - 1; i >= 0; i--){
+        for(int i = length - 1; i > 0; i--){
             Writes.swap(array, 0, i, 1, true, false); //add last element on array, i.e heap root
 
-            heapSize = heapSize - 1; //shrink heap by 1
+            this.heapSize--; //shrink heap by 1
             this.maxHeapify(array, 0);
         }
     }
