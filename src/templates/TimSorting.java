@@ -595,7 +595,8 @@ final public class TimSorting {
             // Gallop left until a[b+hint - ofs] <= key < a[b+hint - lastOfs]
             int maxOfs = hint + 1;
             
-            ts.Highlights.markArray(3, base + hint - ofs);
+            if(base + hint - ofs > -1)
+				ts.Highlights.markArray(3, base + hint - ofs);
             ts.Delays.sleep(1);
             
             while (ofs < maxOfs && ts.Reads.compare(key, a[base + hint - ofs]) < 0) {
@@ -832,8 +833,9 @@ final public class TimSorting {
             do {
                 if (this.Reads.compare(tmp[cursor2], a[cursor1]) < 0) {
                     this.Writes.write(a, dest--, a[cursor1--], 1, false, false);
-                    this.Highlights.markArray(1, dest);
-                    this.Highlights.markArray(2, cursor1);
+					this.Highlights.markArray(1, dest);
+					if(cursor1 > -1)
+						this.Highlights.markArray(2, cursor1);
                     count1++;
                     count2 = 0;
                     if (--len1 == 0)
