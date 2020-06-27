@@ -32,13 +32,13 @@ SOFTWARE.
  *
  */
 
-final public class IterativeWeavedBitonicSort extends Sort {
-    public IterativeWeavedBitonicSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
+final public class IterativeWeaveSort extends Sort {
+    public IterativeWeaveSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
         super(delayOps, markOps, readOps, writeOps);
         
-        this.setSortPromptID("Iter. Weaved Bitonic");
-        this.setRunAllID("Iterative Weaved Bitonic Sort");
-        this.setReportSortID("Iterative Weaved Bitonic Sort");
+        this.setSortPromptID("Iterative Weave");
+        this.setRunAllID("Iterative Weave Sort");
+        this.setReportSortID("Iterative Weave Sort");
         this.setCategory("Concurrent Sorts");
         this.isComparisonBased(true);
         this.isBucketSort(false);
