@@ -31,11 +31,11 @@ SOFTWARE.
 public enum Distributions {
 	LINEAR {
         @Override
-        public void setArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {}
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {}
     },
     SIMILAR {
         @Override
-        public void setArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             
             for(int i = 0; i < currentLen - 8; i++) {
@@ -50,10 +50,106 @@ public enum Distributions {
             }
         }
     },
+	ROUNDED {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            double factor = Math.max(currentLen/8d, 1);
+			
+            for(int i = 0; i < currentLen; i++) {
+				array[i] = (int)(factor*(int)(i/factor));
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+        }
+    },
+	RANDOM {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+			
+            for(int i = 0; i < currentLen; i++) {
+				array[i] = (int)(Math.random()*currentLen);
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+        }
+    },
+	SQUARE {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			
+			for(int i = 0; i < currentLen; i++) {
+				array[i] = (int)(Math.pow(i, 2)/currentLen);
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+        }
+    },
+	SQRT {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			
+			for(int i = 0; i < currentLen; i++) {
+				array[i] = (int)(Math.sqrt(i)*Math.sqrt(currentLen));
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+        }
+    },
+	CUBIC {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			double mid = (currentLen-1)/2d;
+			
+			for(int i = 0; i < currentLen; i++) {
+				array[i] = (int)(Math.pow(i - mid, 3)/Math.pow(mid, 2) + mid);
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+        }
+    },
+	QUINTIC {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			double mid = (currentLen-1)/2d;
+			
+			for(int i = 0; i < currentLen; i++) {
+				array[i] = (int)(Math.pow(i - mid, 5)/Math.pow(mid, 4) + mid);
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+        }
+    },
 	CUSTOM {
         @Override
-        public void setArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {}
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {}
+    },
+	TWELVETET {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int note;
+			double error = 0.05;
+			
+			for(int i = 0; i < currentLen; i++) {
+				for(note = i; note > 0; note--) {
+					double pitch = note / (double) currentLen * (105 - 25) + 25;
+					double pitchError = pitch - (int)pitch;
+					if(pitchError <= error || pitchError >= 1 - error) {
+						array[i] = note;
+						break;
+					}
+				}
+				
+				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+			}
+		}
     };
 
-    public abstract void setArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes);
+    public abstract void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes);
 }

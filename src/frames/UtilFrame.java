@@ -16,8 +16,7 @@ import javax.swing.event.ChangeListener;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import prompts.ShufflePrompt;
-import prompts.DistributionPrompt;
+import prompts.ArrayOptionsPrompt;
 import prompts.SortPrompt;
 import prompts.ViewPrompt;
 import templates.Frame;
@@ -111,7 +110,6 @@ final public class UtilFrame extends javax.swing.JFrame {
         this.jButton5 = new javax.swing.JButton();
         this.jCheckBox5 = new javax.swing.JCheckBox();
         this.jButton6 = new javax.swing.JButton();
-		this.jButton7 = new javax.swing.JButton();
         this.jCheckBox6 = new javax.swing.JCheckBox();
         this.jCheckBox7 = new javax.swing.JCheckBox();
         this.jCheckBox8 = new javax.swing.JCheckBox();
@@ -239,14 +237,6 @@ final public class UtilFrame extends javax.swing.JFrame {
                 jButton6ActionPerformed();
             }
         });
-		
-		jButton7ResetText();
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed();
-            }
-        });
 
         jCheckBox6.setSelected(true);
         jCheckBox6.setText("Display Stats");
@@ -294,7 +284,6 @@ final public class UtilFrame extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
                                                 .addComponent(this.jCheckBox5)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                                        .addComponent(this.jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 														.addComponent(this.jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -322,8 +311,6 @@ final public class UtilFrame extends javax.swing.JFrame {
                         .addComponent(this.jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(this.jButton6)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jButton7)
                         .addGap(7, 7, 7)
                         .addComponent(this.jCheckBox1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -355,7 +342,6 @@ final public class UtilFrame extends javax.swing.JFrame {
         jButton1.setText("Close");
         jButton2ResetText();
         jButton6ResetText();
-		jButton7ResetText();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void jButton1ResetText() {
@@ -376,7 +362,6 @@ final public class UtilFrame extends javax.swing.JFrame {
         jButton2.setText("Close");
         jButton1ResetText();
         jButton6ResetText();
-		jButton7ResetText();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void jButton2ResetText() {
@@ -457,40 +442,20 @@ final public class UtilFrame extends javax.swing.JFrame {
     private void jButton6ActionPerformed() {//GEN-FIRST:event_jButton2ActionPerformed
         //CHANGE SIZE
         if(this.abstractFrame != null && abstractFrame.isVisible()){
-            boolean tmp = this.abstractFrame instanceof ShufflePrompt;
+            boolean tmp = this.abstractFrame instanceof ArrayOptionsPrompt;
             abstractFrame.dispose();
             jButton6ResetText();
             if(tmp)
                 return;
         }
-        this.abstractFrame = new ShufflePrompt(this.ArrayManager, this.Frame, this);
+        this.abstractFrame = new ArrayOptionsPrompt(this.ArrayManager, this.Frame, this);
         jButton6.setText("Close");
         jButton1ResetText();
         jButton2ResetText();
-		jButton7ResetText();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     public void jButton6ResetText() {
-        jButton6.setText("Choose Shuffle");
-    }
-	
-	private void jButton7ActionPerformed() {
-        if(this.abstractFrame != null && abstractFrame.isVisible()){
-            boolean tmp = this.abstractFrame instanceof DistributionPrompt;
-            abstractFrame.dispose();
-            jButton7ResetText();
-            if(tmp)
-                return;
-        }
-        this.abstractFrame = new DistributionPrompt(this.ArrayManager, this.Frame, this);
-        jButton7.setText("Close");
-        jButton1ResetText();
-        jButton2ResetText();
-		jButton6ResetText();
-    }
-	
-	public void jButton7ResetText() {
-        jButton7.setText("Choose Data Set");
+        jButton6.setText("Array Options");
     }
 
     private void jCheckBox6ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
@@ -513,7 +478,6 @@ final public class UtilFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-	private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;

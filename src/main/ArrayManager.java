@@ -39,8 +39,8 @@ final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
 	private utils.Distributions[] distributionTypes;
-    private String[] shuffleIDs = {"Randomly", "Backwards", "Almost Sorted", "Already Sorted"};
-	private String[] distributionIDs = {"Linear", "Few Unique", "Custom"};
+    private String[] shuffleIDs = {"Randomly", "Slight Shuffle", "No Shuffle", "Naive Random", "Randomized Tail", "Pipe Organ", "Ascending Saw", "Backwards Weave", "Sorted Halves", "Sorted Fifths"};
+	private String[] distributionIDs = {"Linear", "Few Unique", "Many Similar", "Random", "Quadratic", "Square Root", "Centered Cubic", "Centered Quintic", "Custom", "12TET"};
     
     private volatile boolean MUTABLE;
 
@@ -50,6 +50,8 @@ final public class ArrayManager {
     private Shuffles Shuffles;
 	private Distributions Distributions;
     private Writes Writes;
+	
+	private boolean isBackwards;
     
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
         this.ArrayVisualizer = arrayVisualizer;
@@ -65,6 +67,8 @@ final public class ArrayManager {
         this.Writes = ArrayVisualizer.getWrites();
         
         this.MUTABLE = true;
+		
+		this.isBackwards = false;
     }
     
     public boolean isLengthMutable() {
@@ -72,6 +76,13 @@ final public class ArrayManager {
     }
     public void toggleMutableLength(boolean Bool) {
         this.MUTABLE = Bool;
+    }
+	
+	public boolean isBackwards() {
+        return this.isBackwards;
+    }
+    public void toggleBackwardsData(boolean Bool) {
+        this.isBackwards = Bool;
     }
  
     //TODO: Fix minimum to zero
@@ -149,9 +160,16 @@ final public class ArrayManager {
             Delays.setSleepRatio(sleepRatio);
         }
         
-		Distributions.setArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
-        Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
-        
+		Distributions.initializeArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
+		if(!this.Distributions.equals(utils.Distributions.RANDOM)) {
+			if(this.isBackwards) {
+				currentLen = ArrayVisualizer.getCurrentLength();
+				Writes.reversal(array, 0, currentLen - 1, ArrayVisualizer.shuffleEnabled() ? 1 : 0, true, false);
+				Highlights.clearMark(2);
+			}
+			Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
+		}
+		
         Delays.setSleepRatio(speed);
         
         Highlights.clearAllMarks();

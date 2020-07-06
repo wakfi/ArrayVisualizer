@@ -47,19 +47,6 @@ public enum Shuffles {
             }
         }
     },
-    REVERSE {
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            
-            for (int left = 0, right = currentLen - 1; left < right; left++, right--) {
-                // swap the values at the left and right indices
-                Writes.swap(array, left, right, 0, true, false);
-                
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
-            }
-        }
-    },
     ALMOST {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
@@ -97,6 +84,130 @@ public enum Shuffles {
                 }
             }
         }
+    },
+	NAIVE {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            
+            for(int i = 0; i < currentLen; i++){
+                Writes.swap(array, i, (int)(Math.random()*(currentLen)), 0, true, false);
+                
+                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+            }
+        }
+    },
+	TAIL {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+            
+            for(int i = 0; i < currentLen/7; i++){
+				int from = (int)(Math.random()*(currentLen-i));
+				int temp = array[from];
+				for(int j = from; j+1 <= currentLen-1; j++)
+					Writes.write(array, j, array[j+1], 0, true, false);
+				Writes.write(array, currentLen-1, temp, 0, true, false);
+                
+                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+            }
+        }
+    },
+	ORGAN {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+            for(int i = 0; i < currentLen/2; i+=2){
+				Writes.swap(array, i, currentLen - (currentLen+1)%2 - 1 - i, 0, true, false);
+                
+                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+            }
+        }
+    },
+	SAW {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+            int sawLen = Math.max((int)Math.ceil(currentLen/10d), 2);
+			int i;
+			
+            for(i = 0; i+sawLen-1 < currentLen; i+=sawLen)
+				Writes.reversal(array, i, i+sawLen-1, ArrayVisualizer.shuffleEnabled() ? 1 : 0, true, false);
+			
+			if(i < currentLen)
+				Writes.reversal(array, i, currentLen-1, ArrayVisualizer.shuffleEnabled() ? 1 : 0, true, false);
+        }
+    },
+	WEAVE {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			double delay = ArrayVisualizer.shuffleEnabled() ? 1 : 0;
+			// :(
+			weaveRec(array, 0, currentLen, 1, delay, Delays, Highlights);
+		}
+		
+		private void weaveRec(int[] array, int pos, int len, int gap, double delay, Delays Delays, Highlights Highlights) {
+			if(pos+gap >= len)
+				return;
+			
+			int i, j, k;
+			boolean up = true;
+			int[] temp = new int[len];
+			
+			for(i = 0; i < len/2; i+=gap) {
+				temp[pos+i] = array[pos+i];
+			}
+			
+			j = pos;
+			k = pos + i;
+			for(i = pos; i < pos+len; i+=gap) {
+				Highlights.markArray(1, i);
+				Highlights.markArray(2, k);
+				
+				if(up) {
+					array[i] = array[k];
+					k += gap;
+				} else {
+					array[i] = temp[j];
+					j += gap;
+				}
+				
+				up = !up;
+			}
+			Delays.sleep(delay);
+			
+			weaveRec(array, pos+gap, len, 2*gap, delay, Delays, Highlights);
+			weaveRec(array, pos, len, 2*gap, delay, Delays, Highlights);
+		}
+    },
+	HALVES {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength(), k = 0;
+			int[] temp = new int[currentLen];
+			
+			for(int j = 0; j < 2; j++)
+				for(int i = j; i < currentLen; i+=2)
+					temp[k++] = array[i];
+				
+			for(int i = 0; i < currentLen; i++)
+				Writes.write(array, i, temp[i], ArrayVisualizer.shuffleEnabled() ? 1 : 0, true, false);
+		}
+    },
+	FIFTHS {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength(), k = 0;
+			int[] temp = new int[currentLen];
+			
+			for(int j = 0; j < 5; j++)
+				for(int i = j; i < currentLen; i+=5)
+					temp[k++] = array[i];
+				
+			for(int i = 0; i < currentLen; i++)
+				Writes.write(array, i, temp[i], ArrayVisualizer.shuffleEnabled() ? 1 : 0, true, false);
+		}
     };
 
     public abstract void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes);
