@@ -101,13 +101,22 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
+			int j = 0, k = currentLen;
+			int[] temp = new int[currentLen];
             
-            for(int i = 0; i < currentLen/7; i++){
-				int from = (int)(Math.random()*(currentLen-i));
-				int temp = array[from];
-				for(int j = from; j+1 <= currentLen-1; j++)
-					Writes.write(array, j, array[j+1], 0, true, false);
-				Writes.write(array, currentLen-1, temp, 0, true, false);
+            for(int i = 0; j < k; i++){
+				if(Math.random() < 1/7d)
+					temp[--k] = array[i];
+				else
+					temp[j++] = array[i];
+            }
+			
+			for(int i = 0; i < currentLen; i++)
+				array[i] = temp[i];
+			
+			for(int i = k; i < currentLen; i++){
+                int randomIndex = (int) (Math.random() * (currentLen - i)) + i;
+                Writes.swap(array, i, randomIndex, 0, true, false);
                 
                 if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
             }
