@@ -19,18 +19,18 @@ Free Documentation License".
  */
 
 /*
-modified by Lucy Phipps from ../templates/HeapSorting.java and MinHeapSort.java
+modified by Lucy Phipps from ../templates/OptimizedHeapSorting.java and OptimizedMinHeapSort.java
 the only real changes are subtracting every array access from (length - 1)
 and removing the Writes.reverse() at the end
 the rest is just compacting the code a bit
 */
 
-final public class FlippedMinHeapSort extends Sort {
-    public FlippedMinHeapSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
+final public class OptimizedFlippedMinHeapSort extends Sort {
+    public OptimizedFlippedMinHeapSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
         super(delayOps, markOps, readOps, writeOps);
-        this.setSortPromptID("Flipped Min Heap");
-        this.setRunAllID("Flipped Min Heap Sort");
-        this.setReportSortID("Flipped Reverse Heapsort");
+        this.setSortPromptID("Optimized Flipped Min Heap");
+        this.setRunAllID("Optimized Flipped Min Heap Sort");
+        this.setReportSortID("Optimized Flipped Reverse Heapsort");
         this.setCategory("Selection Sorts");
         this.isComparisonBased(true);
         this.isBucketSort(false);
@@ -40,6 +40,7 @@ final public class FlippedMinHeapSort extends Sort {
         this.isBogoSort(false);
     }
     private void siftDown(int[] array, int length, int root, int dist) {
+		int temp = array[length - root];
         while (root <= dist / 2) {
             int leaf = 2 * root;
             if (leaf < dist && Reads.compare(array[length - leaf], array[length - leaf - 1]) == 1) {
@@ -48,11 +49,13 @@ final public class FlippedMinHeapSort extends Sort {
             Highlights.markArray(1, length - root);
             Highlights.markArray(2, length - leaf);
             Delays.sleep(1);
-            if (Reads.compare(array[length - root], array[length - leaf]) == 1) {
-                Writes.swap(array, length - root, length - leaf, 0, true, false);
+            if (Reads.compare(temp, array[length - leaf]) == 1) {
+                Writes.write(array, length - root, array[length - leaf], 0, true, false);
                 root = leaf;
             } else break;
         }
+		
+		Writes.write(array, length - root, temp, 0, true, false);
     }
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
