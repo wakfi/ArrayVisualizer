@@ -126,11 +126,27 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
+			int[] temp = new int[currentLen];
+            for(int i = 0, j = 0; i < currentLen; i+=2){
+				temp[j++] = array[i];
+            }
+			for(int i = 1, j = currentLen; i < currentLen; i+=2) {
+				temp[--j] = array[i];
+			}
+			for(int i = 0; i < currentLen; i++){
+                Writes.write(array, i, temp[i], 0, true, false);
+                
+                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
+            }
+			/*
+			Double Slope:
+			int currentLen = ArrayVisualizer.getCurrentLength();
             for(int i = 0; i < currentLen/2; i+=2){
 				Writes.swap(array, i, currentLen - (currentLen+1)%2 - 1 - i, 0, true, false);
                 
                 if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
             }
+			*/
         }
     },
 	SAW {
