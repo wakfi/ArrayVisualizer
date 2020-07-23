@@ -39,7 +39,7 @@ final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
 	private utils.Distributions[] distributionTypes;
-    private String[] shuffleIDs = {"Randomly", "Slight Shuffle", "No Shuffle", "Naive Random", "Randomized Tail", "Pipe Organ", "Ascending Saw", "Backwards Weave", "Sorted Halves", "Sorted Fifths"};
+    private String[] shuffleIDs = {"Randomly", "Slight Shuffle", "No Shuffle", "Naive Random", "Randomized Tail", "Pipe Organ", "Ascending Saw", "Backwards Weave", "Ascending Halves", "Ascending Fifths"};
 	private String[] distributionIDs = {"Linear", "Few Unique", "Many Similar", "Random", "Quadratic", "Square Root", "Centered Cubic", "Centered Quintic", "Custom", "12TET"};
     
     private volatile boolean MUTABLE;
