@@ -31,7 +31,7 @@ final public class SmartBogoSort extends BogoSorting {
 
     public SmartBogoSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
         super(delayOps, markOps, readOps, writeOps);
-        this.setSortPromptID("Permutation");
+        this.setSortPromptID("Smart Bogo");
         this.setRunAllID("Permutation Sort");
         this.setReportSortID("Permutation Sort");
         this.setCategory("Distributive Sorts");
