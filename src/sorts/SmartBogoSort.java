@@ -27,7 +27,7 @@ SOFTWARE.
 
 final public class SmartBogoSort extends BogoSorting {
 
-	private int length;
+	private int max;
 
     public SmartBogoSort(Delays delayOps, Highlights markOps, Reads readOps, Writes writeOps) {
         super(delayOps, markOps, readOps, writeOps);
@@ -45,24 +45,23 @@ final public class SmartBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int currentLen, int bucketCount) {
-    	length = currentLen;
-        permutationSort(array, 0, currentLen-1);
+    	max = currentLen - 1;
+        permutationSort(array, 0);
     }
 
-    private boolean permutationSort(int[] array, int min, int max)
+    private boolean permutationSort(int[] array, int min)
     {
-    	if(max != length-1) throw new RuntimeException();
         boolean sorted = false;
         int i;
         for(i = max; i > min; i--)
         {
             if(max > min+1)
             {
-                sorted = permutationSort(array, min+1, max); //permutation = recurrence relation
+                sorted = permutationSort(array, min+1); //permutation = recurrence relation
             }
             if(sorted || this.bogoIsSorted(array, max+1))
             {
-                return sorted;
+                return true;
             }
 			if((max+1-min)%2 == 0)
 			{
@@ -73,7 +72,7 @@ final public class SmartBogoSort extends BogoSorting {
 		}
         if(max > min+1)
         {
-            return permutationSort(array, min+1, max); //permutation = recurrence relation
+            return permutationSort(array, min+1); //permutation = recurrence relation
         }
         return false;
     }
