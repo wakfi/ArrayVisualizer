@@ -37,43 +37,47 @@ final public class SmartBogoSort extends BogoSorting {
         super(delayOps, markOps, readOps, writeOps);
         
         this.setSortPromptID("Smart Bogo");
-        this.setRunAllID("Deterministic Bogo (Permutation) Sort");
+        this.setRunAllID("Permutation Sort");
         this.setReportSortID("Permutationsort");
         this.setCategory("Distributive Sorts");
         this.isComparisonBased(false);
         this.isBucketSort(false);
         this.isRadixSort(false);
         this.isUnreasonablySlow(true);
-        this.setUnreasonableLimit(16);
+        this.setUnreasonableLimit(12);
         this.isBogoSort(true);
     }
-
+	
+	//deterministic bogo sort to run in guaranteed O(n*n!) worst case
+	//heap's algorithm from wikipedia
     @Override
     public void runSort(int[] array, int currentLen, int bucketCount) {
-		//Counts the permutations with n digits (max value only needs to be n!)
-		int[] pNum = new int[currentLen];
-		int i, j;
+		//c is an encoding of the stack state. c[k] encodes the for-loop counter for when generate(k+1, A) is called
+		int[] c = new int[currentLen];
+
+		if(this.bogoIsSorted(array, currentLen)) return;
 		
-		while(!this.bogoIsSorted(array, currentLen)) {
-			//Increments the pNum count through a factorial counting system
-            for(i = 1; pNum[i] == i; i++)
-				Writes.write(pNum, i, 0, 0, false, true);
-			Writes.write(pNum, i, pNum[i]+1, 0, false, true);
-			
-			//Makes the minimum amount of swaps back for the next step
-			for(j = 1; j <= i; j++) {
-				if(pNum[j] != 1) {
-					if(pNum[j] == 0)
-						Writes.swap(array, j, j-1, 0, false, false);
-					else
-						Writes.swap(array, j, pNum[j]-2, 0, false, false);
+		//i acts similarly to the stack pointer
+		int i = 0;
+		while(i < currentLen) {
+			if(c[i] < i) {
+				if(i%2 == 0) {
+					Writes.swap(array, 0, i, 0, false, false);
 				}
+				else {
+					Writes.swap(array, c[i], i, 0, false, false);
+				}
+				if(this.bogoIsSorted(array, currentLen)) return;
+				//Swap has occurred ending the for-loop. Simulate the increment of the for-loop counter
+				Writes.write(c, i, c[i]+1, 0, false, true);
+				//Simulate recursive call reaching the base case by bringing the pointer to the base case analog in the array
+				i = 0;
 			}
-			
-			//Makes the minimum amount of swaps to generate current permutation
-			for(j = i; j > 0; j--)
-				if(pNum[j] != 0)
-					Writes.swap(array, j, pNum[j]-1, 0, false, false);
-        }
+			else {
+				//Calling generate(i+1, A) has ended as the for-loop terminated. Reset the state and simulate popping the stack by incrementing the pointer.
+				Writes.write(c, i, 0, 0, false, true);
+				i++;
+			}
+		}
     }
 }
